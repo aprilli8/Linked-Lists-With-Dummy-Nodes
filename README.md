@@ -1,18 +1,6 @@
-# Lab 5 - The Genius of Dummies
- * [Course Homepage](http://cs.williams.edu/~cs136/index.html) (with TA schedule)
- * [Lab Webpage](http://cs.williams.edu/~cs136/labs/dummylists.html)
- * [Useful Links](http://cs.williams.edu/~cs136/links.html)
-    * [Strcuture5 Documentation](http://www.cs.williams.edu/~bailey/JavaStructures/doc/structure5/index.html)
-    * [Strcuture5 Source](http://www.cs.williams.edu/~bailey/JavaStructures/Software_files/structure-source.tgz)
-
-Put your answers to the 5 Thought Questions here
-
-1.
-
-2.
-
-3.
-
-4.
-
-5.
+# Lab 5 - Linked List with Dummy Nodes
+ * [Course Homepage](https://williams-cs.github.io/cs136s19-www/) (with TA schedule)
+ * [Lab Webpage](https://williams-cs.github.io/cs136s19-www/assets/labs/lab4/linkedlists.html)
+ * Useful Links:
+    * [Structure5 Documentation](http://www.cs.williams.edu/~bailey/JavaStructures/doc/structure5/index.html)
+    * [Structure5 Source Code](http://www.cs.williams.edu/~bailey/JavaStructures/Software_files/structure-source.tgz)
