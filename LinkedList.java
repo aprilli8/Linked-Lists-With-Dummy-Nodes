@@ -1,9 +1,7 @@
 // Implementation of lists, using doubly linked elements, and dummy nodes.
 // Starter class for List-based lab.
 
-import structure5.DoublyLinkedList;
-import structure5.DoublyLinkedNode;
-import structure5.DoublyLinkedListIterator;
+import structure5.*;
 import java.util.Iterator;
 
 public class LinkedList<E> extends DoublyLinkedList<E>
@@ -146,7 +144,7 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	public E removeFirst()
 	{
 		// Students: modify this code.
-		assert !isEmpty() : "List is empty.";
+		Assert.pre(!isEmpty(),"List is empty.");
 		DoublyLinkedNode<E> temp = head;
 		head = head.next();
 		if (head != null) {
@@ -170,7 +168,7 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	public E removeLast()
 	{
 		// Students: modify this code.
-		assert !isEmpty() : "List is empty.";
+		Assert.pre(!isEmpty(),"List is empty.");
 		DoublyLinkedNode<E> temp = tail;
 		tail = tail.previous();
 		if (tail == null) {
@@ -221,7 +219,7 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	public void add(int i, E o)
 	{
 		// Students: modify this code.
-		assert (0 <= i) && (i <= size()) : "Index out of range.";
+		Assert.pre((0 <= i) && (i <= size()), "Index out of range.");
 
 		if (i == 0) addFirst(o);
 		else if (i == size()) addLast(o);
@@ -257,7 +255,7 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	public E remove(int i)
 	{
 		// Students: modify this code.
-		assert (0 <= i) && (i < size()) : "Index out of range.";
+		Assert.pre( (0 <= i) && (i < size()), "Index out of range.");
 		if (i == 0) return removeFirst();
 		else if (i == size()-1) return removeLast();
 		DoublyLinkedNode<E> previous = null;
@@ -288,6 +286,7 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	public E get(int i)
 	{
 		// Students: modify this code.
+		Assert.pre( (0 <= i) && (i < size()), "Index out of range.");
 		if (i >= size()) return null;
 		DoublyLinkedNode<E> finger = head;
 		// search for the ith element or end of list
@@ -312,6 +311,7 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	public E set(int i, E o)
 	{
 		// Students: modify this code.
+		Assert.pre( (0 <= i) && (i < size()), "Index out of range.");
 		if (i >= size()) return null;
 		DoublyLinkedNode<E> finger = head;
 		// search for the ith element or the end of the list
