@@ -19,6 +19,9 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	protected DoublyLinkedNode<E> tail;
 
+	protected DoublyLinkedNode<E> dummyHead;
+	protected DoublyLinkedNode<E> dummyTail;
+
 	/**
 	* Constructs an empty list.
 	*
@@ -27,9 +30,10 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public LinkedList()
 	{
-		// Students: modify this code.
-		head = null;
-		tail = null;
+		dummyHead = new DoublyLinkedNode<E>(null, dummyTail, null);
+		dummyTail = new DoublyLinkedNode<E>(null, null, dummyHead);
+		head = dummyHead;
+		tail = dummyTail;
 		count = 0;
 	}
 
@@ -64,9 +68,8 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public void clear()
 	{
-		// Students: modify this code
-		head = null;
-		tail = null;
+		head = new DoublyLinkedNode<E>(null, dummyTail, null);
+		tail = new DoublyLinkedNode<E>(null, null, dummyHead);
 		count = 0;
 	}
 
@@ -79,7 +82,11 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	protected void insertAfter(E value, DoublyLinkedNode<E> previous)
 	{
-		// Students: write this code.
+		DoublyLinkedNode<E> current = new DoublyLinkedNode<E>(value, previous.next(), previous);
+		count++;
+
+		previous.setNext(current);
+		current.next().setPrevious(current);
 	}
 
 	/**
@@ -91,7 +98,9 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	protected E remove(DoublyLinkedNode<E> node)
 	{
-		// Students: write this code
+		node.previous().setNext(node.next());
+		node.next().setPrevious(node.previous());
+		count--;
 		return node.value();
 	}
 
@@ -106,11 +115,8 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public void addFirst(E value)
 	{
-		// Students: modify this code.
 		// construct a new element, making it the head
-		head = new DoublyLinkedNode<E>(value, head, null);
-		// fix tail, if necessary
-		if (tail == null) tail = head;
+		head = new DoublyLinkedNode<E>(value, head, dummyHead);
 		count++;
 	}
 
@@ -124,11 +130,8 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public void addLast(E value)
 	{
-		// Students: modify this code.
 		// construct new element
-		tail = new DoublyLinkedNode<E>(value, null, tail);
-		// fix up head
-		if (head == null) head = tail;
+		tail = new DoublyLinkedNode<E>(value, dummyTail, tail);
 		count++;
 	}
 
@@ -143,18 +146,8 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public E removeFirst()
 	{
-		// Students: modify this code.
 		Assert.pre(!isEmpty(),"List is empty.");
-		DoublyLinkedNode<E> temp = head;
-		head = head.next();
-		if (head != null) {
-			head.setPrevious(null);
-		} else {
-			tail = null; // remove final value
-		}
-		temp.setNext(null);// helps clean things up; temp is free
-		count--;
-		return temp.value();
+		return remove(head);
 	}
 
 	/**
@@ -167,17 +160,8 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public E removeLast()
 	{
-		// Students: modify this code.
 		Assert.pre(!isEmpty(),"List is empty.");
-		DoublyLinkedNode<E> temp = tail;
-		tail = tail.previous();
-		if (tail == null) {
-			head = null;
-		} else {
-			tail.setNext(null);
-		}
-		count--;
-		return temp.value();
+		return remove(tail);
 	}
 
 	/**
@@ -190,7 +174,6 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public E getFirst()
 	{
-		// Students: modify this code.
 		return head.value();
 	}
 
@@ -204,7 +187,6 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public E getLast()
 	{
-		// Students: modify this code.
 		return tail.value();
 	}
 
@@ -218,28 +200,18 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public void add(int i, E o)
 	{
-		// Students: modify this code.
 		Assert.pre((0 <= i) && (i <= size()), "Index out of range.");
 
 		if (i == 0) addFirst(o);
 		else if (i == size()) addLast(o);
 		else {
-			DoublyLinkedNode<E> before = null;
-			DoublyLinkedNode<E> after = head;
-			// search for ith position, or end of list
-			while (i > 0)
-			{
-				before = after;
-				after = after.next();
-				i--;
+			DoublyLinkedNode<E> current = head;
+			int j = 0;
+			while(j <= i){
+				current = current.next();
+				j++;
 			}
-			// create new value to insert in correct position
-			DoublyLinkedNode<E> current =
-			new DoublyLinkedNode<E>(o,after,before);
-			count++;
-			// make after and before value point to new value
-			before.setNext(current);
-			after.setPrevious(current);
+			insertAfter(o, current);
 		}
 	}
 
@@ -254,24 +226,18 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public E remove(int i)
 	{
-		// Students: modify this code.
 		Assert.pre( (0 <= i) && (i < size()), "Index out of range.");
 		if (i == 0) return removeFirst();
 		else if (i == size()-1) return removeLast();
-		DoublyLinkedNode<E> previous = null;
-		DoublyLinkedNode<E> finger = head;
-		// search for the value indexed, keep track of previous
-		while (i > 0)
-		{
-			previous = finger;
-			finger = finger.next();
-			i--;
+		else {
+			DoublyLinkedNode<E> current = head;
+			int j = 0;
+			while(j <= i){
+				current = current.next();
+				j++;
+			}
+			return remove(current);
 		}
-		previous.setNext(finger.next());
-		finger.next().setPrevious(previous);
-		count--;
-		// finger's value is old value, return it
-		return finger.value();
 	}
 
 	/**
@@ -285,9 +251,8 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public E get(int i)
 	{
-		// Students: modify this code.
 		Assert.pre( (0 <= i) && (i < size()), "Index out of range.");
-		if (i >= size()) return null;
+
 		DoublyLinkedNode<E> finger = head;
 		// search for the ith element or end of list
 		while (i > 0)
@@ -465,7 +430,7 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 		 * must be swapped, please consult the structure5
 		 * source code for DoublyLinkedListIterator class.
 		 */
-		
+
 		// return new DoublyLinkedListIterator<E>(head,tail);
 		return new DoublyLinkedListIterator<E>(head);
 	}
