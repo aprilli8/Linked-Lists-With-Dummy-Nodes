@@ -50,6 +50,15 @@ public class TestLinkedList {
 		list.set(list.size()-1, "1");
 		compareList(" 1 0 0 0 0 1", list);
 
+		list.add(6, "6");
+		compareList(" 1 0 0 0 0 1 6", list);
+
+		list.remove(6);
+		compareList(" 1 0 0 0 0 1", list);
+
+		System.out.println("Expected: false");
+		System.out.println("Received: " + list.contains("7"));
+
 		System.out.println("Expected: 0");
 		System.out.println("Received: " + list.indexOf("1"));
 		System.out.println("Expected: 5");
