@@ -3,6 +3,8 @@ Test for the LinkedList class from CS136 Lab 4
 (c) 2016 Bill Jannen
 */
 
+//$nice test cases!
+
 import structure5.*;
 import java.util.*;
 
