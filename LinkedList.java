@@ -82,6 +82,8 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 		DoublyLinkedNode<E> current = new DoublyLinkedNode<E>(value, previous.next(), previous);
 		count++;
 
+		/*$ You don't need the next two lines of code-- remember, the three parameter
+			 constructor takes care of this for you. */
 		previous.setNext(current);
 		current.next().setPrevious(current);
 	}
@@ -113,6 +115,7 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	public void addFirst(E value)
 	{
 		// construct a new element at the head
+		//$ (-.5) Remember to utilize your insertAfter method!
 		head.setNext(new DoublyLinkedNode<E>(value, head.next(), head));
 		count++;
 	}
@@ -128,6 +131,7 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	public void addLast(E value)
 	{
 		// construct new element at the tail
+		//$ See above.
 		tail.setPrevious(new DoublyLinkedNode<E>(value, tail, tail.previous()));
 		count++;
 	}
@@ -202,6 +206,8 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 		Assert.pre((0 <= i) && (i <= size()), "Index out of range.");
 
 		DoublyLinkedNode<E> current = head.next();
+		/*$ You could consider making a helper method with this loop since you
+			 seem to use it in a lot of functions. */
 		int j = 0;
 		while(j < i){
 			current = current.next();
@@ -298,6 +304,7 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 		int i = 0;
 		DoublyLinkedNode<E> current = head.next();
 		// search for value or end of list, counting along the way
+		//$ Not a bad idea to check if current.value() == null
 		while(current != tail && !current.value().equals(value)){
 			current = current.next();
 			i++;
@@ -350,6 +357,11 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 	*/
 	public boolean contains(E value)
 	{
+		/*$ Simplify! You can just say
+			'''
+			return indexOf(value) != -1;
+			'''
+			*/
 		if(indexOf(value) == -1){
 			return false;
 		}
@@ -375,6 +387,8 @@ public class LinkedList<E> extends DoublyLinkedList<E>
 		while (current != tail && !current.value().equals(value)){
 			current = current.next();
 		}
+
+		//$ (-1) Remember, you can use your remove(node) method to do this work.
 		if(current != tail){
 			// fix next field of element above
 			current.previous().setNext(current.next());
